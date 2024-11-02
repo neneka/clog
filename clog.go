@@ -53,8 +53,8 @@ func Debugf(ctx context.Context, format string, a ...any) {
 }
 
 // DebugErr logs an error at SeverityDebug.
-func DebugErr(ctx context.Context, err error, args ...any) {
-	Default().err(ctx, SeverityDebug, err, args...)
+func DebugErr(ctx context.Context, err error, msg string, args ...any) {
+	Default().err(ctx, SeverityDebug, err, msg, args...)
 }
 
 // Info logs at SeverityInfo.
@@ -68,8 +68,8 @@ func Infof(ctx context.Context, format string, a ...any) {
 }
 
 // InfoErr logs an error at SeverityInfo.
-func InfoErr(ctx context.Context, err error, args ...any) {
-	Default().err(ctx, SeverityInfo, err, args...)
+func InfoErr(ctx context.Context, err error, msg string, args ...any) {
+	Default().err(ctx, SeverityInfo, err, msg, args...)
 }
 
 // Notice logs at SeverityNotice.
@@ -83,8 +83,8 @@ func Noticef(ctx context.Context, format string, a ...any) {
 }
 
 // NoticeErr logs an error at SeverityNotice.
-func NoticeErr(ctx context.Context, err error, args ...any) {
-	Default().err(ctx, SeverityNotice, err, args...)
+func NoticeErr(ctx context.Context, err error, msg string, args ...any) {
+	Default().err(ctx, SeverityNotice, err, msg, args...)
 }
 
 // Warning logs at SeverityWarning.
@@ -98,8 +98,8 @@ func Warningf(ctx context.Context, format string, a ...any) {
 }
 
 // WarningErr logs an error at SeverityWarning.
-func WarningErr(ctx context.Context, err error, args ...any) {
-	Default().err(ctx, SeverityWarning, err, args...)
+func WarningErr(ctx context.Context, err error, msg string, args ...any) {
+	Default().err(ctx, SeverityWarning, err, msg, args...)
 }
 
 // Error logs at SeverityError.
@@ -113,8 +113,8 @@ func Errorf(ctx context.Context, format string, a ...any) {
 }
 
 // ErrorErr logs an error at SeverityError.
-func ErrorErr(ctx context.Context, err error, args ...any) {
-	Default().err(ctx, SeverityError, err, args...)
+func ErrorErr(ctx context.Context, err error, msg string, args ...any) {
+	Default().err(ctx, SeverityError, err, msg, args...)
 }
 
 // Critical logs at SeverityCriticaDefault().
@@ -128,8 +128,8 @@ func Criticalf(ctx context.Context, format string, a ...any) {
 }
 
 // CriticalErr logs an error at SeverityCriticaDefault().
-func CriticalErr(ctx context.Context, err error, args ...any) {
-	Default().err(ctx, SeverityCritical, err, args...)
+func CriticalErr(ctx context.Context, err error, msg string, args ...any) {
+	Default().err(ctx, SeverityCritical, err, msg, args...)
 }
 
 // Alert logs at SeverityAlert.
@@ -143,8 +143,8 @@ func Alertf(ctx context.Context, format string, a ...any) {
 }
 
 // AlertErr logs an error at SeverityAlert.
-func AlertErr(ctx context.Context, err error, args ...any) {
-	Default().err(ctx, SeverityAlert, err, args...)
+func AlertErr(ctx context.Context, err error, msg string, args ...any) {
+	Default().err(ctx, SeverityAlert, err, msg, args...)
 }
 
 // Emergency logs at SeverityEmergency.
@@ -158,8 +158,8 @@ func Emergencyf(ctx context.Context, format string, a ...any) {
 }
 
 // EmergencyErr logs an error at SeverityEmergency.
-func EmergencyErr(ctx context.Context, err error, args ...any) {
-	Default().err(ctx, SeverityEmergency, err, args...)
+func EmergencyErr(ctx context.Context, err error, msg string, args ...any) {
+	Default().err(ctx, SeverityEmergency, err, msg, args...)
 }
 
 // Log emits a log record with the current time and the given level and message.
@@ -168,8 +168,8 @@ func Log(ctx context.Context, s Severity, msg string, args ...any) {
 }
 
 // Err is a shorthand for ErrorErr.
-func Err(ctx context.Context, err error, args ...any) {
-	Default().err(ctx, SeverityError, err, args...)
+func Err(ctx context.Context, err error, msg string, args ...any) {
+	Default().err(ctx, SeverityError, err, msg, args...)
 }
 
 // Enabled reports whether the Logger emits log records at the given context and leveDefault().

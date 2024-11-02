@@ -89,7 +89,7 @@ func RequestHandler(w http.ResponseWriter, r *http.Request) {
 
 	err := errors.New("something went wrong")
 	if err != nil {
-		clog.Err(ctx, err)
+		clog.Err(ctx, err, err.Error())
 		/*
 		   {
 		     "time": "2023-09-18T21:14:02.980412394+09:00",

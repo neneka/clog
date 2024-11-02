@@ -53,8 +53,8 @@ func (l *Logger) Debugf(ctx context.Context, format string, a ...any) {
 }
 
 // DebugErr logs an error at SeverityDebug.
-func (l *Logger) DebugErr(ctx context.Context, err error, args ...any) {
-	l.err(ctx, SeverityDebug, err, args...)
+func (l *Logger) DebugErr(ctx context.Context, err error, msg string, args ...any) {
+	l.err(ctx, SeverityDebug, err, msg, args...)
 }
 
 // Info logs at SeverityInfo.
@@ -68,8 +68,8 @@ func (l *Logger) Infof(ctx context.Context, format string, a ...any) {
 }
 
 // InfoErr logs an error at SeverityInfo.
-func (l *Logger) InfoErr(ctx context.Context, err error, args ...any) {
-	l.err(ctx, SeverityInfo, err, args...)
+func (l *Logger) InfoErr(ctx context.Context, err error, msg string, args ...any) {
+	l.err(ctx, SeverityInfo, err, msg, args...)
 }
 
 // Notice logs at SeverityNotice.
@@ -83,8 +83,8 @@ func (l *Logger) Noticef(ctx context.Context, format string, a ...any) {
 }
 
 // NoticeErr logs an error at SeverityNotice.
-func (l *Logger) NoticeErr(ctx context.Context, err error, args ...any) {
-	l.err(ctx, SeverityNotice, err, args...)
+func (l *Logger) NoticeErr(ctx context.Context, err error, msg string, args ...any) {
+	l.err(ctx, SeverityNotice, err, msg, args...)
 }
 
 // Warning logs at SeverityWarning.
@@ -98,8 +98,8 @@ func (l *Logger) Warningf(ctx context.Context, format string, a ...any) {
 }
 
 // WarningErr logs an error at SeverityWarning.
-func (l *Logger) WarningErr(ctx context.Context, err error, args ...any) {
-	l.err(ctx, SeverityWarning, err, args...)
+func (l *Logger) WarningErr(ctx context.Context, err error, msg string, args ...any) {
+	l.err(ctx, SeverityWarning, err, msg, args...)
 }
 
 // Error logs at SeverityError.
@@ -113,8 +113,8 @@ func (l *Logger) Errorf(ctx context.Context, format string, a ...any) {
 }
 
 // ErrorErr logs an error at SeverityError.
-func (l *Logger) ErrorErr(ctx context.Context, err error, args ...any) {
-	l.err(ctx, SeverityError, err, args...)
+func (l *Logger) ErrorErr(ctx context.Context, err error, msg string, args ...any) {
+	l.err(ctx, SeverityError, err, msg, args...)
 }
 
 // Critical logs at SeverityCritical.
@@ -128,8 +128,8 @@ func (l *Logger) Criticalf(ctx context.Context, format string, a ...any) {
 }
 
 // CriticalErr logs an error at SeverityCritical.
-func (l *Logger) CriticalErr(ctx context.Context, err error, args ...any) {
-	l.err(ctx, SeverityCritical, err, args...)
+func (l *Logger) CriticalErr(ctx context.Context, err error, msg string, args ...any) {
+	l.err(ctx, SeverityCritical, err, msg, args...)
 }
 
 // Alert logs at SeverityAlert.
@@ -143,8 +143,8 @@ func (l *Logger) Alertf(ctx context.Context, format string, a ...any) {
 }
 
 // AlertErr logs an error at SeverityAlert.
-func (l *Logger) AlertErr(ctx context.Context, err error, args ...any) {
-	l.err(ctx, SeverityAlert, err, args...)
+func (l *Logger) AlertErr(ctx context.Context, err error, msg string, args ...any) {
+	l.err(ctx, SeverityAlert, err, msg, args...)
 }
 
 // Emergency logs at SeverityEmergency.
@@ -158,8 +158,8 @@ func (l *Logger) Emergencyf(ctx context.Context, format string, a ...any) {
 }
 
 // EmergencyErr logs an error at SeverityEmergency.
-func (l *Logger) EmergencyErr(ctx context.Context, err error, args ...any) {
-	l.err(ctx, SeverityEmergency, err, args...)
+func (l *Logger) EmergencyErr(ctx context.Context, err error, msg string, args ...any) {
+	l.err(ctx, SeverityEmergency, err, msg, args...)
 }
 
 // Enabled reports whether the Logger emits log records at the given context and level.
@@ -168,8 +168,8 @@ func (l *Logger) Enabled(ctx context.Context, s Severity) bool {
 }
 
 // Err is a shorthand for ErrorErr.
-func (l *Logger) Err(ctx context.Context, err error, args ...any) {
-	l.err(ctx, SeverityError, err, args...)
+func (l *Logger) Err(ctx context.Context, err error, msg string, args ...any) {
+	l.err(ctx, SeverityError, err, msg, args...)
 }
 
 // Log emits a log record with the current time and the given level and message.
@@ -242,7 +242,7 @@ func (l *Logger) withAttrs(attrs ...slog.Attr) *Logger {
 	return &Logger{slog.New(l.inner.Handler().WithAttrs(attrs))}
 }
 
-func (l *Logger) err(ctx context.Context, s Severity, err error, args ...any) {
+func (l *Logger) err(ctx context.Context, s Severity, err error, msg string, args ...any) {
 	if err == nil {
 		return
 	}
@@ -256,7 +256,7 @@ func (l *Logger) err(ctx context.Context, s Severity, err error, args ...any) {
 
 	// skip [runtime.Callers, source, this function, clog exported function]
 	src := getSourceLocation(4)
-	l.logAttrsWithSource(ctx, s, src, err.Error(), attrs...)
+	l.logAttrsWithSource(ctx, s, src, msg, attrs...)
 }
 
 func (l *Logger) logWithSource(ctx context.Context, s Severity, src *sourceLocation, msg string, args ...any) {

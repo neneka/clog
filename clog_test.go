@@ -295,7 +295,7 @@ func TestDefaultLogger_FormattingLogFuncs(t *testing.T) {
 }
 
 func TestDefaultLogger_ErrorLogFuncs(t *testing.T) {
-	type logFn func(ctx context.Context, err error, args ...any)
+	type logFn func(ctx context.Context, err error, msg string, args ...any)
 
 	tests := map[string]struct {
 		getFn          func(clog.Severity) (logFn, *writer)
@@ -379,6 +379,7 @@ func TestDefaultLogger_ErrorLogFuncs(t *testing.T) {
 	type testCase struct {
 		loggerSeverity clog.Severity
 		err            error
+		msg            string
 		args           []any
 		want           map[string]any
 	}
@@ -400,6 +401,7 @@ func TestDefaultLogger_ErrorLogFuncs(t *testing.T) {
 			cases[fmt.Sprintf("Severity(%d)", s)] = testCase{
 				loggerSeverity: s,
 				err:            err1,
+				msg:            err1.Error(),
 				args:           []any{},
 				want:           makeWant(s),
 			}
@@ -408,12 +410,14 @@ func TestDefaultLogger_ErrorLogFuncs(t *testing.T) {
 		cases["with args"] = testCase{
 			loggerSeverity: funcSeverity,
 			err:            err1,
+			msg:            err1.Error(),
 			args:           []any{"k1", "v1"},
 			want:           buildWantLog(severityString, "err", "k1", "v1", "stack_trace", anyString{}),
 		}
 		cases["error without stack"] = testCase{
 			loggerSeverity: funcSeverity,
 			err:            err2,
+			msg:            err2.Error(),
 			args:           []any{},
 			want:           buildWantLog(severityString, "no stack"),
 		}
@@ -435,7 +439,7 @@ func TestDefaultLogger_ErrorLogFuncs(t *testing.T) {
 			tc := tc
 			t.Run(testName+"/"+caseName, func(t *testing.T) {
 				fn, w := getFn(tc.loggerSeverity)
-				fn(ctx, tc.err, tc.args...)
+				fn(ctx, tc.err, tc.msg, tc.args...)
 				w.assertLog(t, tc.want)
 			})
 		}
